@@ -29,8 +29,9 @@ header { display: flex; align-items: center; gap: 8px; padding: 8px 16px; backgr
 header .spacer { flex: 1; }
 main { position: relative; flex: 1; min-height: 0; }
 .map { height: 100%; width: 100%; }
-.panel { position: absolute; top: 12px; right: 12px; bottom: 12px; width: 380px; max-width: calc(100% - 24px); overflow-y: auto;
-  background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px; z-index: 1000; box-shadow: 0 8px 24px rgba(0,0,0,.15); }
+.panel { position: absolute; top: 0; right: 0; bottom: 0; width: 420px; max-width: 100%; overflow-y: auto;
+  background: var(--card); border-left: 1px solid var(--line); padding: 16px; z-index: 1000; box-shadow: -8px 0 24px rgba(0,0,0,.12); }
+.panel:has(.lp) { padding: 0; }
 .panel-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
 .panel-head p { margin: 2px 0 0; }
 .row { display: flex; gap: 8px; margin-top: 12px; }
@@ -51,9 +52,47 @@ main { position: relative; flex: 1; min-height: 0; }
 .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 4px; vertical-align: middle; }
 .empty { position: absolute; top: 16px; left: 50%; transform: translateX(-50%); z-index: 1000; max-width: calc(100% - 32px); }
 
+/* Google-reviews-style location panel */
+.lp { display: flex; flex-direction: column; }
+.lp-hero { position: relative; padding: 20px 16px 14px; background: linear-gradient(135deg, var(--brand), #3b0a57); color: #fff; }
+.lp-hero h2 { font-size: 22px; padding-right: 32px; }
+.lp-hero p { margin: 4px 0 6px; color: rgba(255,255,255,.85); }
+.lp-hero a { color: #fff; opacity: .9; }
+.lp-close { position: absolute; top: 10px; right: 10px; background: rgba(255,255,255,.18); border: none; color: #fff; border-radius: 50%; width: 32px; height: 32px; padding: 0; }
+.lp-summary { display: grid; grid-template-columns: auto 1fr; gap: 20px; align-items: center; padding: 16px; border-bottom: 1px solid var(--line); }
+.lp-score { text-align: center; }
+.lp-avg { font-size: 44px; font-weight: 700; line-height: 1; margin-bottom: 4px; }
+.lp-hist { display: flex; flex-direction: column; gap: 4px; }
+.lp-hist-row { display: grid; grid-template-columns: 12px 1fr; gap: 8px; align-items: center; }
+.lp-bar { height: 8px; border-radius: 4px; background: var(--line); overflow: hidden; }
+.lp-bar div { height: 100%; border-radius: 4px; }
+.lp-write { margin: 14px 16px; border-radius: 999px; padding: 10px; font-weight: 600; color: var(--brand); border-color: var(--brand); background: transparent; }
+.lp-form { display: flex; flex-direction: column; gap: 10px; margin: 14px 16px; padding: 14px; border: 1px solid var(--line); border-radius: 12px; }
+.lp-form h3, .lp-reviews h3 { margin: 0; }
+.lp-form label { display: flex; flex-direction: column; gap: 4px; }
+.stars-input { display: flex; gap: 2px; }
+.stars-input button { font-size: 32px; line-height: 1; padding: 0 4px; border: none; background: none; color: var(--line); }
+.stars-input button.on { color: #f4b400; }
+.lp-reviews { padding: 8px 16px 24px; border-top: 1px solid var(--line); }
+.lp-reviews > .row-between { align-items: center; padding: 8px 0; }
+.lp-sort { width: auto; padding: 4px 8px; font-size: 13px; }
+.chips { display: flex; gap: 6px; overflow-x: auto; padding: 4px 0 10px; scrollbar-width: thin; }
+.chip { white-space: nowrap; border-radius: 999px; padding: 5px 12px; font-size: 13px; }
+.chip.on { background: color-mix(in srgb, var(--brand) 15%, transparent); border-color: var(--brand); }
+.review-list { list-style: none; padding: 0; margin: 0; }
+.review { padding: 14px 0; border-bottom: 1px solid var(--line); }
+.review-head { display: grid; grid-template-columns: 36px 1fr auto; gap: 10px; align-items: center; }
+.avatar { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; color: #fff; font-weight: 700; }
+.review-name { font-weight: 600; }
+.review-meta { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
+.stars-static { position: relative; display: inline-block; line-height: 1; letter-spacing: 1px; }
+.stars-bg { color: var(--line); }
+.stars-fg { position: absolute; left: 0; top: 0; overflow: hidden; white-space: nowrap; color: #f4b400; }
+
 @media (max-width: 640px) {
   header .who { display: none; }
-  .panel { top: auto; left: 8px; right: 8px; bottom: 8px; width: auto; max-width: none; height: 60%; }
+  .panel { top: auto; left: 0; right: 0; bottom: 0; width: auto; height: 75%; border-left: none; border-top: 1px solid var(--line); border-radius: 16px 16px 0 0; box-shadow: 0 -8px 24px rgba(0,0,0,.15); }
+  .lp-hero { border-radius: 16px 16px 0 0; }
   .legend { bottom: auto; top: 8px; left: auto; right: 8px; gap: 6px; }
   header { padding: 8px; }
   header strong { font-size: 14px; white-space: nowrap; }
