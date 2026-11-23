@@ -17,7 +17,7 @@ export type LocationStat = {
   review_count: number
 }
 
-export type MenuItem = { id: number; name: string }
+export type MenuItem = { id: number; name: string; category: string | null }
 
 export type Review = {
   id: number
