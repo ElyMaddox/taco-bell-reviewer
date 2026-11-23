@@ -26,7 +26,7 @@ export default function LocationPanel({ location, userId, onClose, onChanged }: 
         .eq('location_id', location.id)
         .order('visited_on', { ascending: false })
         .order('created_at', { ascending: false }),
-      supabase.from('menu_items').select('id, name').order('name'),
+      supabase.from('menu_items').select('id, name, category').order('name'),
     ])
     if (r.data) setReviews(r.data as Review[])
     if (i.data) setItems(i.data)
@@ -45,6 +45,17 @@ export default function LocationPanel({ location, userId, onClose, onChanged }: 
     return [...m.entries()].map(([name, v]) => ({ name, avg: v.sum / v.n, n: v.n })).sort((a, b) => b.avg - a.avg)
   }, [reviews])
 
+  const groups = useMemo(() => {
+    const order = ['Tacos', 'Burritos', 'Quesadillas', 'Specialties', 'Bowls', 'Nachos & Sides', 'Sweets', 'Breakfast', 'Drinks']
+    const m = new Map<string, MenuItem[]>()
+    for (const i of items) {
+      const c = i.category ?? 'Other'
+      m.set(c, [...(m.get(c) ?? []), i])
+    }
+    const rank = (c: string) => (order.indexOf(c) + 1 || 99)
+    return [...m.entries()].sort((a, b) => rank(a[0]) - rank(b[0]))
+  }, [items])
+
   async function submit(e: React.FormEvent) {
     e.preventDefault()
     setErr(null)
@@ -57,7 +68,7 @@ export default function LocationPanel({ location, userId, onClose, onChanged }: 
       const found = items.find((i) => i.name.toLowerCase() === name.toLowerCase())
       if (found) item = found.id
       else {
-        const { data, error } = await supabase.from('menu_items').insert({ name }).select('id').single()
+        const { data, error } = await supabase.from('menu_items').insert({ name, category: 'Other' }).select('id').single()
         if (error) { setBusy(false); return setErr(error.message) }
         item = data.id
       }
@@ -112,7 +123,11 @@ export default function LocationPanel({ location, userId, onClose, onChanged }: 
       <form onSubmit={submit} className="review-form">
         <select value={itemId} onChange={(e) => setItemId(e.target.value)} required>
           <option value="">Menu item…</option>
-          {items.map((i) => <option key={i.id} value={i.id}>{i.name}</option>)}
+          {groups.map(([cat, list]) => (
+            <optgroup key={cat} label={cat}>
+              {list.map((i) => <option key={i.id} value={i.id}>{i.name}</option>)}
+            </optgroup>
+          ))}
           <option value="new">+ Something else…</option>
         </select>
         {itemId === 'new' && <input placeholder="Item name" value={newItem} onChange={(e) => setNewItem(e.target.value)} maxLength={60} />}
