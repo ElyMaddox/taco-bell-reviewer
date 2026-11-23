@@ -1,0 +1,61 @@
+:root {
+  --bg: #f6f3fb; --card: #ffffff; --ink: #1d1530; --muted: #6b6380; --line: #e4def0;
+  --brand: #702082; --brand-ink: #ffffff; --danger: #c62828;
+  color-scheme: light dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #15111d; --card: #211a2e; --ink: #f1ecfa; --muted: #a59cb8; --line: #362c48; --brand: #a64bc0; }
+}
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; margin: 0; }
+body { font: 15px/1.45 system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background: var(--bg); color: var(--ink); }
+button, input, select, textarea { font: inherit; color: inherit; }
+input, select, textarea { width: 100%; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); }
+button { padding: 8px 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--card); cursor: pointer; }
+button.primary { background: var(--brand); color: var(--brand-ink); border-color: var(--brand); }
+button.link { border: none; background: none; color: var(--muted); padding: 2px 6px; }
+button:disabled { opacity: .6; cursor: default; }
+h1 { margin: 0 0 4px; font-size: 22px; } h2 { margin: 0; font-size: 18px; } h3 { margin: 18px 0 6px; font-size: 14px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+.muted { color: var(--muted); } .small { font-size: 13px; } .big { font-size: 22px; font-weight: 700; margin: 8px 0; }
+.msg { color: var(--danger); margin: 4px 0; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px; }
+
+.auth { min-height: 100%; display: grid; place-items: center; padding: 16px; }
+.auth form { width: 100%; max-width: 360px; display: flex; flex-direction: column; gap: 12px; }
+.auth label { display: flex; flex-direction: column; gap: 4px; font-size: 13px; color: var(--muted); }
+
+.app { height: 100%; display: flex; flex-direction: column; }
+header { display: flex; align-items: center; gap: 8px; padding: 8px 16px; background: var(--card); border-bottom: 1px solid var(--line); z-index: 1000; }
+header .spacer { flex: 1; }
+main { position: relative; flex: 1; min-height: 0; }
+.map { height: 100%; width: 100%; }
+.panel { position: absolute; top: 12px; right: 12px; bottom: 12px; width: 380px; max-width: calc(100% - 24px); overflow-y: auto;
+  background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px; z-index: 1000; box-shadow: 0 8px 24px rgba(0,0,0,.15); }
+.panel-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+.panel-head p { margin: 2px 0 0; }
+.row { display: flex; gap: 8px; margin-top: 12px; }
+.results { list-style: none; padding: 0; margin: 12px 0 0; display: flex; flex-direction: column; gap: 6px; }
+.result { width: 100%; text-align: left; font-size: 13px; }
+.items, .history { list-style: none; padding: 0; margin: 0; }
+.items li { display: grid; grid-template-columns: 1fr auto 36px; gap: 8px; padding: 4px 0; border-bottom: 1px solid var(--line); font-weight: 600; }
+.history li { padding: 8px 0; border-bottom: 1px solid var(--line); }
+.row-between { display: flex; justify-content: space-between; }
+.note { margin: 4px 0 0; white-space: pre-wrap; }
+.dim { opacity: .25; }
+.review-form { display: flex; flex-direction: column; gap: 8px; }
+.review-form label { display: flex; flex-direction: column; gap: 4px; color: var(--muted); }
+.stars { display: flex; gap: 4px; }
+.stars button { font-size: 24px; line-height: 1; padding: 4px 8px; color: var(--line); }
+.stars button.on { color: #f4b400; }
+.legend { position: absolute; left: 12px; bottom: 24px; z-index: 1000; display: flex; gap: 10px; padding: 8px 12px; font-size: 12px; }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 4px; vertical-align: middle; }
+.empty { position: absolute; top: 16px; left: 50%; transform: translateX(-50%); z-index: 1000; max-width: calc(100% - 32px); }
+
+@media (max-width: 640px) {
+  header .who { display: none; }
+  .panel { top: auto; left: 8px; right: 8px; bottom: 8px; width: auto; max-width: none; height: 60%; }
+  .legend { bottom: auto; top: 8px; left: auto; right: 8px; gap: 6px; }
+  header { padding: 8px; }
+  header strong { font-size: 14px; white-space: nowrap; }
+  header button { padding: 6px 10px; white-space: nowrap; font-size: 14px; }
+}
